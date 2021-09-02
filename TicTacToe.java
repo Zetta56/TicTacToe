@@ -1,4 +1,3 @@
-import java.awt.event.*;
 import javax.swing.*;
 
 public class TicTacToe {
@@ -12,8 +11,7 @@ public class TicTacToe {
       this.finished = false;
    }
 
-   public void playTurn(ActionEvent e) {
-      JButton button = (JButton)e.getSource();
+   public void playTurn(JButton button) {
       if(button.getText().equals("") && !finished) {
          button.setText(player);
          checkWinner();
