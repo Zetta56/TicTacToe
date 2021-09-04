@@ -14,12 +14,12 @@ public class Settings extends JDialog {
    private String gamemode;
    private String first;
 
-   public Settings(GUI gui, String title) {
+   public Settings(GUI gui) {
       super(gui);
       // Window
       this.gui = gui;
-      this.setTitle(title);
-      this.setSize(340, 275);
+      this.setTitle("Settings");
+      this.setSize(350, 300);
       this.setResizable(false);
       this.setModalityType(ModalityType.APPLICATION_MODAL); // Blocks main GUI
       this.setLocationRelativeTo(this.getParent()); // Centered over GUI
@@ -66,7 +66,7 @@ public class Settings extends JDialog {
       orderField = new JSpinner();
 
       // First Field
-      JLabel firstLabel = new JLabel("First: ");
+      JLabel firstLabel = new JLabel("First Player: ");
       firstField = new ButtonGroup();
       // X Option (adding components to panel for organized rendering)
       JPanel xOption = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -105,10 +105,18 @@ public class Settings extends JDialog {
       pvpOption.add(pvpButton);
       pvpOption.add(pvpLabel);
       gamemodeField.add(pvpButton);
+      // Computer Vs Computer Option
+      JPanel cvcOption = new JPanel(new FlowLayout(FlowLayout.LEFT));
+      JLabel cvcLabel = new JLabel("Computer vs Computer");
+      JRadioButton cvcButton = new JRadioButton();
+      cvcButton.setActionCommand("cvc");
+      cvcOption.add(cvcButton);
+      cvcOption.add(cvcLabel);
+      gamemodeField.add(cvcButton);
       
       // Layout
-      JComponent[] components = {orderLabel, orderField, firstLabel,
-         xOption, null, oOption, gamemodeLabel, pvcOption, null, pvpOption};
+      JComponent[] components = {orderLabel, orderField, firstLabel, xOption,
+         null, oOption, gamemodeLabel, pvcOption, null, pvpOption, null, cvcOption};
       this.layoutFields(components);
 
       // Default Values
@@ -116,7 +124,7 @@ public class Settings extends JDialog {
       xButton.setSelected(true);
       pvcButton.setSelected(true);
 
-      // Reconcile Fields
+      // Reconcile Fields and Stored Values
       this.addWindowListener(new WindowAdapter() {
          @Override
          public void windowActivated(WindowEvent e) {

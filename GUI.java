@@ -30,7 +30,7 @@ public class GUI extends JFrame {
       
       // Components
       initializeMenu();
-      settings = new Settings(this, "Settings");
+      settings = new Settings(this);
       settings.applySettings(); // Initialize board with default settings
       settings.setVisible(true);
    }
@@ -47,7 +47,7 @@ public class GUI extends JFrame {
       // Populate button properties
       for(int row = 0; row < board.length; row++) {
          for(int col = 0; col < board[0].length; col++) {
-            JButton button = new JButton();  // Defaults to empty string text
+            JButton button = new JButton();  // Defaults text to empty string
             button.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 300 / order));
             button.setFocusPainted(false);   // Remove highlighting
             button.addActionListener(new ActionListener() {
@@ -60,8 +60,8 @@ public class GUI extends JFrame {
          }
       }
       // Render layout changes and reload game logic
-      game = new TicTacToe(board);
       validate();
+      game = new TicTacToe(board, settings);
    }
 
    /** Creates menu-bar with menus and menu items */
@@ -103,11 +103,11 @@ public class GUI extends JFrame {
    
    /** Resets game state and board text */
    private void resetBoard() {
-      game = new TicTacToe(board);
       for(int row = 0; row < board.length; row++) {
          for(int col = 0; col < board[0].length; col++) {
             board[row][col].setText("");
          }
       }
+      game = new TicTacToe(board, settings);
    }
 }

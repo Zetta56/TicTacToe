@@ -2,22 +2,38 @@ import javax.swing.*;
 
 /** Controller managing TicTacToe game logic */
 public class TicTacToe {
-   private String player;
-   private boolean finished;
    private JButton[][] board;
+   private Settings settings;
+   private Player player1;
+   private Player player2;
+   private Player currentPlayer;
+   private boolean finished;
 
-   public TicTacToe(JButton[][] board) {
+   public TicTacToe(JButton[][] board, Settings settings) {
       this.board = board;
-      this.player = "X";
+      this.settings = settings;
+      this.player1 = new Player(this, board, "X", settings.getGamemode().equals("cvc"));
+      this.player2 = new Player(this, board, "O", !settings.getGamemode().equals("pvp"));
+      this.currentPlayer = settings.getFirst().equals("x") ? player1 : player2;
       this.finished = false;
+      if(currentPlayer.isComputer()) {
+         currentPlayer.generateMove();
+      }
+   }
+
+   public boolean getFinished() {
+      return finished;
    }
 
    public void playTurn(JButton button) {
       if(button.getText().equals("") && !finished) {
-         button.setText(player);
-         checkWinner();
+         button.setText(currentPlayer.getSymbol());
+         checkMatching();
          checkTie();
-         player = player.equals("X") ? "O" : "X"; // Switch players
+         currentPlayer = currentPlayer.getSymbol().equals("X") ? player2 : player1;
+         if(currentPlayer.isComputer()) {
+            currentPlayer.generateMove();
+         }
       }
    }
    
@@ -30,12 +46,15 @@ public class TicTacToe {
          }
       }
       JOptionPane.showMessageDialog(null, "It's a tie");
+      settings.setVisible(true);
       finished = true;
    }
    
-   public void checkWinner() {
+   public void checkMatching() {
       if(matchingRow() || matchingColumn() || matchingDiagonal()) {
-         JOptionPane.showMessageDialog(null, "Player " + player + " has won");
+         String message = "Player " + currentPlayer.getSymbol() + " has won";
+         JOptionPane.showMessageDialog(null, message);
+         settings.setVisible(true);
          finished = true;
       }
    }
@@ -44,7 +63,7 @@ public class TicTacToe {
       for(int row = 0; row < board.length; row++) {
          boolean matching = true;
          for(int col = 0; col < board[0].length; col++) {
-            if(!board[row][col].getText().equals(player)) {
+            if(!board[row][col].getText().equals(currentPlayer.getSymbol())) {
                matching = false;
                break;
             }
@@ -60,7 +79,7 @@ public class TicTacToe {
       for(int col = 0; col < board[0].length; col++) {
          boolean matching = true;
          for(int row = 0; row < board.length; row++) {
-            if(!board[row][col].getText().equals(player)) {
+            if(!board[row][col].getText().equals(currentPlayer.getSymbol())) {
                matching = false;
                break;
             }
@@ -79,7 +98,7 @@ public class TicTacToe {
          for(int i = 0; i < board.length; i++) {
             // Reverses row if checking bottomleft-topright diagonal (diagonal 2)
             int row = diagonal == 2 ? board.length - 1 - i : i;
-            if(!board[row][i].getText().equals(player)) {
+            if(!board[row][i].getText().equals(currentPlayer.getSymbol())) {
                matching = false;
                break;
             }
