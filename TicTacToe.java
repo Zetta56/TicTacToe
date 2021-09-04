@@ -1,5 +1,6 @@
 import javax.swing.*;
 
+/** Controller managing TicTacToe game logic */
 public class TicTacToe {
    private String player;
    private boolean finished;

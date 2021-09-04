@@ -2,9 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/**
- * GUI used to render TicTacToe window
- */
+/** GUI used to render TicTacToe window */
 // JFrame is a top-level container representing the app's window
 public class GUI extends JFrame {
    // Rendering Pane (actually a JPanel, but declaring with parent Container adds flexibility)
@@ -12,14 +10,13 @@ public class GUI extends JFrame {
    // Main Menu
    private JMenuBar menuBar; // Top bar in window with multiple menus
    private JMenu menu; // Dropdown list with multiple items
-   private JMenuItem newGame;
-   private JMenuItem quit;
-   private JMenuItem settings;
-   private Settings settingsDialog;
+   private JMenuItem newGameItem;
+   private JMenuItem quitItem;
+   private JMenuItem settingsItem;
+   private Settings settings;
    // Game Tab
    private JButton[][] board; // Button component detecting player clicks
    private TicTacToe game;
-   private int order;
    
    public GUI() {
       super();
@@ -33,19 +30,9 @@ public class GUI extends JFrame {
       
       // Components
       initializeMenu();
-      settingsDialog = new Settings(this, "Settings");
-      settingsDialog.applySettings(); // Initialize board with default settings
-      settingsDialog.setVisible(true);
-   }
-
-   public int getOrder() {
-      return order;
-   }
-
-   public void setOrder(int order) {
-      if(order > 0) {
-         this.order = order;
-      }
+      settings = new Settings(this, "Settings");
+      settings.applySettings(); // Initialize board with default settings
+      settings.setVisible(true);
    }
    
    /** Creates and styles tictactoe board */
@@ -54,6 +41,7 @@ public class GUI extends JFrame {
       this.setContentPane(new JPanel());
       pane = this.getContentPane();
       // Makes pane render a grid of buttons
+      int order = settings.getOrder();
       pane.setLayout(new GridLayout(order, order));
       board = new JButton[order][order];
       // Populate button properties
@@ -85,32 +73,32 @@ public class GUI extends JFrame {
       menuBar.add(menu);
 
       // New-Game Button
-      newGame = new JMenuItem("New Game");
+      newGameItem = new JMenuItem("New Game");
       // Anonymous inner class is a shortcut for declaring and instantiating ActionListener-derived class
-      newGame.addActionListener(new ActionListener() {
+      newGameItem.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
             resetBoard();
          }
       });
-      menu.add(newGame);
+      menu.add(newGameItem);
 
       // Settings Button
-      settings = new JMenuItem("Settings");
-      settings.addActionListener(new ActionListener() {
+      settingsItem = new JMenuItem("Settings");
+      settingsItem.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
-            settingsDialog.setVisible(true);
+            settings.setVisible(true);
          }
       });
-      menu.add(settings);
+      menu.add(settingsItem);
 
       // Quit Button
-      quit = new JMenuItem("Quit");
-      quit.addActionListener(new ActionListener() {
+      quitItem = new JMenuItem("Quit");
+      quitItem.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
             System.exit(0); // Terminates entire program
          }
       });
-      menu.add(quit);
+      menu.add(quitItem);
    }
    
    /** Resets game state and board text */
