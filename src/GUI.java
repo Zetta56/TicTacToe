@@ -1,5 +1,5 @@
+package src;
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
 /** GUI used to render TicTacToe window */
@@ -35,7 +35,7 @@ public class GUI extends JFrame {
       settings.setVisible(true);
    }
    
-   /** Creates and styles tictactoe board */
+   /** Creates and styles TicTacToe board */
    public void initializeBoard() {
       // Reset and get JFrame container
       this.setContentPane(new JPanel());
@@ -50,11 +50,7 @@ public class GUI extends JFrame {
             JButton button = new JButton();  // Defaults text to empty string
             button.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 300 / order));
             button.setFocusPainted(false);   // Remove highlighting
-            button.addActionListener(new ActionListener() {
-               public void actionPerformed(ActionEvent e) {
-                  game.playTurn((JButton)e.getSource());
-               }
-            });
+            button.addActionListener(e -> game.playTurn((JButton)e.getSource()));
             board[row][col] = button;
             pane.add(button);
          }
@@ -74,30 +70,17 @@ public class GUI extends JFrame {
 
       // New-Game Button
       newGameItem = new JMenuItem("New Game");
-      // Anonymous inner class is a shortcut for declaring and instantiating ActionListener-derived class
-      newGameItem.addActionListener(new ActionListener() {
-         public void actionPerformed(ActionEvent e) {
-            resetBoard();
-         }
-      });
+      newGameItem.addActionListener(e -> resetBoard());
       menu.add(newGameItem);
 
       // Settings Button
       settingsItem = new JMenuItem("Settings");
-      settingsItem.addActionListener(new ActionListener() {
-         public void actionPerformed(ActionEvent e) {
-            settings.setVisible(true);
-         }
-      });
+      settingsItem.addActionListener(e -> settings.setVisible(true));
       menu.add(settingsItem);
 
       // Quit Button
       quitItem = new JMenuItem("Quit");
-      quitItem.addActionListener(new ActionListener() {
-         public void actionPerformed(ActionEvent e) {
-            System.exit(0); // Terminates entire program
-         }
-      });
+      quitItem.addActionListener(e -> System.exit(0));
       menu.add(quitItem);
    }
    

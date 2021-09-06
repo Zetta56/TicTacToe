@@ -1,3 +1,4 @@
+package src;
 import java.util.Enumeration;
 import java.awt.*;
 import java.awt.event.*; 
@@ -126,6 +127,8 @@ public class Settings extends JDialog {
 
       // Reconcile Fields and Stored Values
       this.addWindowListener(new WindowAdapter() {
+         // Anonymous inner class used as shortcut to declare and instantiate class
+         // Since WindowAdapter has multiple methods, lambdas can't be used here
          @Override
          public void windowActivated(WindowEvent e) {
             orderField.setValue((Object)order);
@@ -165,20 +168,12 @@ public class Settings extends JDialog {
       
       // Cancel Button
       JButton cancel = new JButton("Cancel");
-      cancel.addActionListener(new ActionListener() {
-         public void actionPerformed(ActionEvent e) {
-            dispose();  // Close settings window
-         }
-      });
+      cancel.addActionListener(e -> dispose()); // Close settings window
       panel.add(cancel);
       
       // Submit Button
       JButton submit = new JButton("Play");
-      submit.addActionListener(new ActionListener() {
-         public void actionPerformed(ActionEvent e) {
-            applySettings();
-         }
-      });
+      submit.addActionListener(e -> applySettings());
       panel.add(submit);
    }
    
