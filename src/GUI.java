@@ -9,7 +9,7 @@ public class GUI extends JFrame {
    private Container pane;
    // Main Menu
    private JMenuBar menuBar; // Top bar in window with multiple menus
-   private JMenu menu; // Dropdown list with multiple items
+   private JMenu fileMenu; // Dropdown list with multiple items
    private JMenuItem newGameItem;
    private JMenuItem quitItem;
    private JMenuItem settingsItem;
@@ -65,23 +65,23 @@ public class GUI extends JFrame {
       // Top-level Menus
       menuBar = new JMenuBar();
       this.setJMenuBar(menuBar);
-      menu = new JMenu("File");
-      menuBar.add(menu);
+      fileMenu = new JMenu("File");
+      menuBar.add(fileMenu);
 
       // New-Game Button
       newGameItem = new JMenuItem("New Game");
       newGameItem.addActionListener(e -> resetBoard());
-      menu.add(newGameItem);
+      fileMenu.add(newGameItem);
 
       // Settings Button
       settingsItem = new JMenuItem("Settings");
       settingsItem.addActionListener(e -> settings.setVisible(true));
-      menu.add(settingsItem);
+      fileMenu.add(settingsItem);
 
       // Quit Button
       quitItem = new JMenuItem("Quit");
       quitItem.addActionListener(e -> System.exit(0));
-      menu.add(quitItem);
+      fileMenu.add(quitItem);
    }
    
    /** Resets game state and board text */
